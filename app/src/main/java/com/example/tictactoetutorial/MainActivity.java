@@ -11,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView button1,button2,button3,button4,button5,button6,button7,button8,button9;
     private String startGame="X";
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView scorex,scoreo;
     private Button Reset;
 
+    ImageView[] buttons;
+    int[] buttonsValues = new int[] {10,10,10,10,10,10,10,10,10,10};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +32,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         button1=findViewById(R.id.buttonImage1);
         button2=findViewById(R.id.buttonImage2);
-
         button3=findViewById(R.id.buttonImage3);
-
         button4=findViewById(R.id.buttonImage4);
-
         button5=findViewById(R.id.buttonImage5);
         button6=findViewById(R.id.buttonImage6);
         button7=findViewById(R.id.buttonImage7);
         button8=findViewById(R.id.buttonImage8);
         button9=findViewById(R.id.buttonImage9);
+
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+        button6.setOnClickListener(this);
+        button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
+        button9.setOnClickListener(this);
+
+        buttons = new ImageView[] {button1, button2, button3, button4, button5, button6, button7, button8, button9};
 
         scorex = findViewById(R.id.ScoreX);
         scoreo = findViewById(R.id.ScoreY);
@@ -63,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,32 +221,31 @@ public class MainActivity extends AppCompatActivity {
                 if(c5==0)
                 {
 
-                if(startGame.equals("X"))
-                {
-                    button5.setImageResource(R.drawable.cross);
-                    b5=1;
-                    i++;
-                    c5=1;
-                }
-                else
-                {
-                    button5.setImageResource(R.drawable.circle);
-                    b5=0;
-                    i++;
-                    c5=1;
-                }
-                choosePlayer();
-                winningGame();
+                    if(startGame.equals("X"))
+                    {
+                        button5.setImageResource(R.drawable.cross);
+                        b5=1;
+                        i++;
+                        c5=1;
+                    }
+                    else
+                    {
+                        button5.setImageResource(R.drawable.circle);
+                        b5=0;
+                        i++;
+                        c5=1;
+                    }
+                    choosePlayer();
+                    winningGame();
 
-            }
+                }
                 else
-            {
-                Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
-            }
+                {
+                    Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
-
 
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,32 +254,31 @@ public class MainActivity extends AppCompatActivity {
                 if(c6==0)
                 {
 
-                if(startGame.equals("X"))
-                {
-                    button6.setImageResource(R.drawable.cross);
-                    b6=1;
-                    i++;
-                    c6=1;
+                    if(startGame.equals("X"))
+                    {
+                        button6.setImageResource(R.drawable.cross);
+                        b6=1;
+                        i++;
+                        c6=1;
+                    }
+                    else
+                    {
+                        button6.setImageResource(R.drawable.circle);
+                        b6=0;
+                        i++;
+                        c6=1;
+                    }
+                    choosePlayer();
+                    winningGame();
+
+
                 }
                 else
                 {
-                    button6.setImageResource(R.drawable.circle);
-                    b6=0;
-                    i++;
-                    c6=1;
+                    Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
                 }
-                choosePlayer();
-                winningGame();
-
-
-            }
-                else
-            {
-                Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
-            }
             }
         });
-
 
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,29 +288,29 @@ public class MainActivity extends AppCompatActivity {
                 if(c7==0)
                 {
 
-                if(startGame.equals("X"))
-                {
-                    button7.setImageResource(R.drawable.cross);
-                    b7=1;
-                    i++;
-                    c7=1;
+                    if(startGame.equals("X"))
+                    {
+                        button7.setImageResource(R.drawable.cross);
+                        b7=1;
+                        i++;
+                        c7=1;
+                    }
+                    else
+                    {
+                        button7.setImageResource(R.drawable.circle);
+                        b7=0;
+                        i++;
+                        c7=1;
+                    }
+                    choosePlayer();
+                    winningGame();
+
+
                 }
                 else
                 {
-                    button7.setImageResource(R.drawable.circle);
-                    b7=0;
-                    i++;
-                    c7=1;
+                    Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
                 }
-                choosePlayer();
-                winningGame();
-
-
-            }
-                else
-            {
-                Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
-            }
             }
         });
 
@@ -308,28 +321,28 @@ public class MainActivity extends AppCompatActivity {
                 if(c8==0)
                 {
 
-                if(startGame.equals("X"))
-                {
-                    button8.setImageResource(R.drawable.cross);
-                    b8=1;
-                    i++;
-                    c8=1;
-                }
-                else
-                {
-                    button8.setImageResource(R.drawable.circle);
-                    b8=0;
-                    i++;
-                    c8=1;
-                }
-                choosePlayer();
-                winningGame();
+                    if(startGame.equals("X"))
+                    {
+                        button8.setImageResource(R.drawable.cross);
+                        b8=1;
+                        i++;
+                        c8=1;
+                    }
+                    else
+                    {
+                        button8.setImageResource(R.drawable.circle);
+                        b8=0;
+                        i++;
+                        c8=1;
+                    }
+                    choosePlayer();
+                    winningGame();
 
-            }
+                }
                 else
-            {
-                Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
-            }
+                {
+                    Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -341,22 +354,22 @@ public class MainActivity extends AppCompatActivity {
                 if(c9==0)
                 {
 
-                if(startGame.equals("X"))
-                {
-                    button9.setImageResource(R.drawable.cross);
-                    b9=1;
-                    i++;
-                    c9=1;
-                }
-                else
-                {
-                    button9.setImageResource(R.drawable.circle);
-                    b9=0;
-                    i++;
-                    c9=1;
-                }
-                choosePlayer();
-                winningGame();
+                    if(startGame.equals("X"))
+                    {
+                        button9.setImageResource(R.drawable.cross);
+                        b9=1;
+                        i++;
+                        c9=1;
+                    }
+                    else
+                    {
+                        button9.setImageResource(R.drawable.circle);
+                        b9=0;
+                        i++;
+                        c9=1;
+                    }
+                    choosePlayer();
+                    winningGame();
 
                 }
                 else
@@ -367,11 +380,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+         */
+    }
 
+    public int FindButton(int id){
+        for(int i = 0; i < buttons.length; i++){
+            if(buttons[i].getId() == id) return i;
+        }
+        return -1;
     }
 
 
+    @Override
+    public void onClick(View v) {
+        int indexPressedButton = FindButton(v.getId());
 
+        if(buttonsValues[indexPressedButton] == 10) {
+            if(startGame.equals("X")) {
+                buttons[indexPressedButton].setImageResource(R.drawable.cross);
+                buttonsValues[indexPressedButton] = 1;
+            } else {
+                buttons[indexPressedButton].setImageResource(R.drawable.circle);
+                buttonsValues[indexPressedButton] = 0;
+            }
+            i++;
+            choosePlayer();
+            winningGame();
+        }
+        else
+        {
+            Toast.makeText(MainActivity.this,"Button Already Pressed",Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     private void winningGame()
@@ -436,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-      else  if((b7==1) && (b8==1) && (b9==1))
+        else  if((b7==1) && (b8==1) && (b9==1))
         {
 
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -894,8 +934,8 @@ public class MainActivity extends AppCompatActivity {
         b8=5;
         b9=5;
         i=0;
-         c1=0;
-       c2=0;
+        c1=0;
+        c2=0;
 
         c3=0;
         c4=0;
