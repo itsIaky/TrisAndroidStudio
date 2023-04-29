@@ -198,7 +198,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Score X :- 0"
+            android:text="Punti X : 0"
             android:textSize="30sp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -209,7 +209,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Score O :- 0"
+            android:text="Punti O : 0"
             android:textSize="30sp"
             android:textColor="@color/white"
             android:textStyle="bold"

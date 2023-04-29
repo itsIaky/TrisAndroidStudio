@@ -1,8 +1,7 @@
 package com.example.tictactoetutorial;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class BotActivity extends AppCompatActivity implements View.OnClickListener {
 
     //bottoni
     ImageView button1,button2,button3,button4,button5,button6,button7,button8,button9;
@@ -116,15 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     scoreo.setText("Punti O : "+String.valueOf(oCount));
                 }
                 else {
-                    Toast.makeText(MainActivity.this,"Pareggio",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BotActivity.this,"Pareggio",Toast.LENGTH_SHORT).show();
                 }
-                if( vincitore == "X" || vincitore == "O") Toast.makeText(MainActivity.this,"Ha vinto " + vincitore,Toast.LENGTH_SHORT).show();
+                if( vincitore == "X" || vincitore == "O") Toast.makeText(BotActivity.this,"Ha vinto " + vincitore,Toast.LENGTH_SHORT).show();
                 resetValues();
             }
         }
         else
         {
-            Toast.makeText(MainActivity.this,"Spazio occupato",Toast.LENGTH_SHORT).show();
+            Toast.makeText(BotActivity.this,"Spazio occupato",Toast.LENGTH_SHORT).show();
         }
     }
 
