@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button Reset;
 
     ImageView[] buttons;
-    int[] buttonsValues = new int[] {10,10,10,10,10,10,10,10,10,10};
+    int[] buttonsValues = new int[] {10,10,10,10,10,10,10,10,10};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -939,9 +939,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void resetValues() {
         turnCounter=0;
-        for( int i = 0; i < buttonsValues.length; i++ ){
+        for(int i = 0; i < buttonsValues.length; i++ ){
             buttonsValues[i] = 10;
+            buttons[i].setImageDrawable((null));
         }
+        /*
         button1=findViewById(R.id.buttonImage1);
         button2=findViewById(R.id.buttonImage2);
         button3=findViewById(R.id.buttonImage3);
@@ -960,5 +962,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button7.setImageDrawable(null);
         button8.setImageDrawable(null);
         button9.setImageDrawable(null);
+
+         */
     }
 }
