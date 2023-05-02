@@ -1,13 +1,32 @@
 package com.example.tictactoetutorial;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import java.io.*;
 
 public class BotActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,10 +44,69 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
     //array che contiene il valore di ogni casella del campo: 10 = vuota, 0 = O, 1 = X
     int[] buttonsValues = new int[] {10,10,10,10,10,10,10,10,10};
 
+    /*
+    Node nodePC;
+    Node nodePlayer;
+    Node node;
+    SharedPreferences mPrefs;
+     */
+
+    int livello;
+    Node head1;
+    Node head2;
+    Node attuale;
+    Boolean primo;
+    Random r;
+    Kryo kryo;
+
     //funzione per la creazione del campo
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        kryo = new Kryo();
+        kryo.register(Node.class);
+        r = new Random();
+
+        /*
+        mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonPlayer = mPrefs.getString("nodePlayer", "");
+        String jsonPC = mPrefs.getString("nodePC", "");
+
+        nodePlayer = gson.fromJson(jsonPlayer, Node.class);
+        nodePC = gson.fromJson(jsonPC, Node.class);
+
+         */
+
+        primo = true;
+        livello = 0;
+
+        /*
+        head1 = Node.CreaAlberoM();
+        Node.MosseMigliori1M(head1);
+        head2 = Node.CreaAlberoM();
+        Node.MosseMigliori2M(head2);
+         */
+
+        Input input = null;
+        try {
+            input = new Input(new FileInputStream(new File(getFilesDir(), "head1.bin")));
+            head1 = kryo.readObject(input, Node.class);
+            input.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            input = new Input(new FileInputStream(new File(getFilesDir(), "head2.bin")));
+            head2 = kryo.readObject(input, Node.class);
+            input.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         //collegamento tra variabili e oggetti grafici
         setContentView(R.layout.activity_main);
         button1=findViewById(R.id.buttonImage1);
@@ -54,13 +132,28 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
 
         //riempio l'array di bottoni
         buttons = new ImageView[] {button1, button2, button3, button4, button5, button6, button7, button8, button9};
+        if(r.nextBoolean()) {
+            //pc parte con il cerchio
+            attuale = head1;
+
+            Node mossaMigliore = attuale.nodi.stream().filter(x -> x.vittorie == attuale.nodi.stream().max(Comparator.comparing(y -> y.vittorie)).get().vittorie).findFirst().get();
+            int indexMossaMigliore = mossaMigliore.posizione;
+
+            buttons[indexMossaMigliore - 1].setImageResource(R.drawable.circle);
+            buttonsValues[indexMossaMigliore - 1] = 0;
+            livello++;
+            turnCounter++;
+            attuale = mossaMigliore;
+
+        }
+        else attuale = head2;
 
         //collego le variabili alle label
         scorex = findViewById(R.id.ScoreX);
         scoreo = findViewById(R.id.ScoreY);
 
         //collego la variabile al bottone reset
-        Reset=findViewById(R.id.Reset);
+        Reset = findViewById(R.id.Reset);
 
         //assegno la funzione reset al bottone
         Reset.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +178,7 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
 
 
     //funzione che imposta il segno nella posizione selezionata in campo
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         int indexPressedButton = FindButton(v.getId());
@@ -98,8 +192,10 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
                 buttons[indexPressedButton].setImageResource(R.drawable.circle);
                 buttonsValues[indexPressedButton] = 0;
             }
+
+            livello++;
             turnCounter++;
-            choosePlayer();
+
             //check vittoria
             String vincitore = winningGame();
             if( vincitore != "" ){
@@ -116,20 +212,46 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 if( vincitore == "X" || vincitore == "O") Toast.makeText(BotActivity.this,"Ha vinto " + vincitore,Toast.LENGTH_SHORT).show();
                 resetValues();
+                return;
             }
         }
-        else
-        {
+        else {
             Toast.makeText(BotActivity.this,"Spazio occupato",Toast.LENGTH_SHORT).show();
+        }
+
+        attuale = attuale.nodi.stream().filter(x -> x.posizione == indexPressedButton + 1).findAny().get();
+
+        Node mossaMigliore = attuale.nodi.stream().filter(x -> x.vittorie == attuale.nodi.stream().max(Comparator.comparing(y -> y.vittorie)).get().vittorie).findFirst().get();
+
+        int indexMossaMigliore = mossaMigliore.posizione;
+
+        buttons[indexMossaMigliore - 1].setImageResource(R.drawable.circle);
+        buttonsValues[indexMossaMigliore - 1] = 0;
+        livello++;
+        attuale = mossaMigliore;
+        turnCounter++;
+
+        String vincitore = winningGame();
+        if( vincitore != "" ){
+            if( vincitore == "X" ){
+                xCount++;
+                scorex.setText("Punti X : "+String.valueOf(xCount));
+            }
+            else if( vincitore == "O"){
+                oCount++;
+                scoreo.setText("Punti O : "+String.valueOf(oCount));
+            }
+            else {
+                Toast.makeText(BotActivity.this,"Pareggio",Toast.LENGTH_SHORT).show();
+            }
+            if( vincitore == "X" || vincitore == "O") Toast.makeText(BotActivity.this,"Ha vinto " + vincitore,Toast.LENGTH_SHORT).show();
+            resetValues();
         }
     }
 
-
-    private String winningGame()
-    {
+    private String winningGame() {
         String giocatoreVincente = "";
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             //controllo vitoria righe
             if ((buttonsValues[i * 3] + buttonsValues[(i * 3) + 1] + buttonsValues[(i * 3) + 2]) == 3) { giocatoreVincente = "X"; }
             if ((buttonsValues[i * 3] + buttonsValues[(i * 3) + 1] + buttonsValues[(i * 3) + 2]) == 0) { giocatoreVincente = "O"; }
@@ -146,28 +268,30 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
         return giocatoreVincente;
     }
 
-
-    //funzione che alterna il giocatore corrente
-    private void choosePlayer()
-    {
-        if(startGame.equals("X"))
-        {
-            startGame="O";
-        }
-        else
-        {
-            startGame="X";
-        }
-    }
-
-
-
     //funzione per il reset dei bottoni
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void resetValues() {
-        turnCounter=0;
+        turnCounter = 0;
+        livello = 0;
         for(int i = 0; i < buttonsValues.length; i++ ){
             buttonsValues[i] = 10;
             buttons[i].setImageDrawable((null));
         }
+
+        if(r.nextBoolean()) {
+            //pc parte con il cerchio
+            attuale = head1;
+
+            Node mossaMigliore = attuale.nodi.stream().filter(x -> x.vittorie == attuale.nodi.stream().max(Comparator.comparing(y -> y.vittorie)).get().vittorie).findFirst().get();
+            int indexMossaMigliore = mossaMigliore.posizione;
+
+            buttons[indexMossaMigliore - 1].setImageResource(R.drawable.circle);
+            buttonsValues[indexMossaMigliore - 1] = 0;
+            livello++;
+            turnCounter++;
+            attuale = mossaMigliore;
+
+        }
+        else attuale = head2;
     }
 }
