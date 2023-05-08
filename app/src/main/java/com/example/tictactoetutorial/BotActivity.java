@@ -3,7 +3,6 @@ package com.example.tictactoetutorial;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -44,12 +40,6 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
     //array che contiene il valore di ogni casella del campo: 10 = vuota, 0 = O, 1 = X
     int[] buttonsValues = new int[] {10,10,10,10,10,10,10,10,10};
 
-    /*
-    Node nodePC;
-    Node nodePlayer;
-    Node node;
-    SharedPreferences mPrefs;
-     */
 
     int livello;
     Node head1;
@@ -69,26 +59,8 @@ public class BotActivity extends AppCompatActivity implements View.OnClickListen
         kryo.register(Node.class);
         r = new Random();
 
-        /*
-        mPrefs = getPreferences(MODE_PRIVATE);
-        Gson gson = new Gson();
-        String jsonPlayer = mPrefs.getString("nodePlayer", "");
-        String jsonPC = mPrefs.getString("nodePC", "");
-
-        nodePlayer = gson.fromJson(jsonPlayer, Node.class);
-        nodePC = gson.fromJson(jsonPC, Node.class);
-
-         */
-
         primo = true;
         livello = 0;
-
-        /*
-        head1 = Node.CreaAlberoM();
-        Node.MosseMigliori1M(head1);
-        head2 = Node.CreaAlberoM();
-        Node.MosseMigliori2M(head2);
-         */
 
         Input input = null;
         try {

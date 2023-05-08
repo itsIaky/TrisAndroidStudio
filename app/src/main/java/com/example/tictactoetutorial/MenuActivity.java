@@ -14,9 +14,6 @@ public class MenuActivity extends AppCompatActivity {
     Button playButton;
     Button playAI;
 
-    //Node nodePC;
-    //Node nodePlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +21,6 @@ public class MenuActivity extends AppCompatActivity {
         playButton = findViewById(R.id.button3);
         playAI = findViewById(R.id.buttonAI);
 
-        //nodePC = (Node) getIntent().getSerializableExtra("nodePC");
-        //nodePlayer = (Node) getIntent().getSerializableExtra("nodePlayer");
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,8 +34,6 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuActivity.this, BotActivity.class);
-                //intent.putExtra("nodePlayer", nodePlayer);
-                //intent.putExtra("nodePC", nodePC);
                 startActivity(intent);
             }
         });
